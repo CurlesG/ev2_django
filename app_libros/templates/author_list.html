@@ -1,0 +1,74 @@
+{% extends 'base.html' %} {% block content %}
+<section
+  class="antialiased bg-gray-100 text-gray-600 h-screen px-4"
+  x-data="app"
+>
+  <div class="flex flex-col justify-center h-full">
+    <!-- Table -->
+    <div
+      class="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200"
+    >
+      <header class="px-5 py-4 border-b border-gray-100">
+        <div class="font-semibold text-gray-800">Authors List</div>
+        <div class="justify-right my-8 select-none flex">
+          <a href="{% url 'add_author' %}">
+            <button class="py-2 px-4 shadow-md no-underline rounded-full bg-green-500 text-white font-sans font-semibold text-sm border-blue btn-primary hover:text-white hover:bg-green-300 focus:outline-none active:shadow-none mr-2">Add an Author</button>
+          </a>
+        </div>
+      </header>
+
+      <div class="overflow-x-auto p-3">
+        <table class="table-auto w-full">
+          <thead
+            class="text-xs font-semibold uppercase text-gray-400 bg-gray-50"
+          >
+            <tr>
+              <th class="p-2">
+                <div class="font-semibold text-left">ID</div>
+              </th>
+              <th class="p-2">
+                <div class="font-semibold text-left">Author Name</div>
+              </th>
+              <th class="p-2">
+                <div class="font-semibold text-left">Date Of Birth</div>
+              </th>
+              <th class="p-2">
+                <div class="font-semibold text-center">Actions</div>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody class="text-sm divide-y divide-gray-100">
+
+            {% for author in author_list %}
+            <tr>
+              <td class="p-2">
+                <div class="font-medium text-gray-800">{{ author.id }}</div>
+              </td>
+              <td class="p-2">
+                <div class="font-medium text-gray-800">{{ author.name }}</div>
+              </td>
+              <td class="p-2">
+                <div class="text-left">{{ author.date_of_birth }}</div>
+              </td>
+              <td class="p-2">
+                <a href="{% url 'author_detail' pk=author.id%}">
+                  <button class="py-2 px-4 shadow-md no-underline rounded-full bg-blue-500 text-white font-sans font-semibold text-sm border-blue btn-primary hover:text-white hover:bg-blue-200 focus:outline-none active:shadow-none mr-2">Details</button>
+                </a>
+                <a href="{% url 'author_edit' pk=author.id%}">
+                  <button class="py-2 px-4 shadow-md no-underline rounded-full bg-yellow-500 text-white font-sans font-semibold text-sm border-blue btn-primary hover:text-white hover:bg-yellow-200 focus:outline-none active:shadow-none mr-2">Edit</button>
+                </a>
+                <form method="post" action="{% url 'author_delete' pk=author.id %}">
+                  {% csrf_token %}
+                  <button type="submit"  value="Delete" class="py-2 px-4 shadow-md no-underline rounded-full bg-red-500 text-white font-sans font-semibold text-sm border-blue btn-primary hover:text-white hover:bg-red-200 focus:outline-none active:shadow-none mr-2">Delete</button>
+                </form>
+              </td>
+            </tr>
+            {% empty %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+  </div>
+</section>
+{% endblock %}
