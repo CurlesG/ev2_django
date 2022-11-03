@@ -1,6 +1,5 @@
 import re
 from django.db import models
-from sqlalchemy import null
 
 # class Publisher(models.Model):
 #     name = models.CharField(max_length=100, unique = True, null = False)
@@ -46,7 +45,7 @@ class Genre(models.Model):
 
 class Author(models.Model):
     name = models.CharField(max_length=100, unique = True, null = False)
-    date_of_birth = models.DateField(default = null)
+    date_of_birth = models.DateField()
     
     def __str__(self):
         return self.name
